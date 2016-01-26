@@ -4,7 +4,7 @@
 [![Dependency status][dependency-image]][dependency-url]
 
 * Студент: [Roman Sharonov](https://htmlacademy.ru/profile/id103107).
-* Наставник: `Неизвестно`.
+* Наставник: `Антон Попов`.
 
 ### Немного о себе
 
