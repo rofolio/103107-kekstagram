@@ -88,14 +88,14 @@
       // чего-либо с другой обводкой.
 
       // Толщина линии.
-      this._ctx.lineWidth = 6;
+      this._ctx.lineWidth = 4;
       // Цвет обводки.
       this._ctx.strokeStyle = '#ffe753';
       // Размер штрихов. Первый элемент массива задает длину штриха, второй
       // расстояние между соседними штрихами.
-      this._ctx.setLineDash([15, 10]);
+      this._ctx.setLineDash([4, 4]);
       // Смещение первого штриха от начала линии.
-      this._ctx.lineDashOffset = 7;
+      this._ctx.lineDashOffset = 20;
 
       // Сохранение состояния канваса.
       // Подробней см. строку 132.
@@ -110,6 +110,32 @@
       // нужно отрисовать и координаты его верхнего левого угла.
       // Координаты задаются от центра холста.
       this._ctx.drawImage(this._image, displX, displY);
+
+      // Отрисовка затемнения на 80%
+      // Внешний контур
+      this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+      this._ctx.moveTo(-this._container.width / 2, -this._container.height / 2);
+      this._ctx.lineTo(this._container.width / 2, -this._container.height / 2);
+      this._ctx.lineTo(this._container.width / 2, this._container.height / 2);
+      this._ctx.lineTo(-this._container.width / 2, this._container.height / 2);
+      this._ctx.lineTo(-this._container.width / 2, -this._container.height / 2);
+
+      // Внутренний контур
+      var zeroX = -this._resizeConstraint.side / 2 - this._ctx.lineWidth;
+      var zeroY = -this._resizeConstraint.side / 2 - this._ctx.lineWidth;
+      this._ctx.moveTo(zeroX, zeroY);
+      this._ctx.lineTo(zeroX + this._resizeConstraint.side, zeroY);
+      this._ctx.lineTo(zeroX + this._resizeConstraint.side, zeroY + this._resizeConstraint.side);
+      this._ctx.lineTo(zeroX, zeroY + this._resizeConstraint.side);
+      this._ctx.lineTo(zeroX, zeroY);
+
+      // Заливаем область между контурами
+      this._ctx.fill('evenodd');
+
+      // Надпись с размерами
+      this._ctx.fillStyle = '#FFFFFF';
+      this._ctx.font = '15pt';
+      this._ctx.fillText(this._image.naturalWidth + ' x ' + this._image.naturalHeight, -30, zeroY - this._ctx.lineWidth - 2);
 
       // Отрисовка прямоугольника, обозначающего область изображения после
       // кадрирования. Координаты задаются от центра.
