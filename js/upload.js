@@ -71,8 +71,28 @@
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
+
+   // Валидация данных введённых в форму
+
+  var formElement = document.forms['upload-resize'];
+  var left = formElement['resize-x'];
+  var up = formElement['resize-y'];
+  var size = formElement['resize-size'];
+  var submitButton = formElement['resize-fwd'];
+  var validationLeft = ((left + size) <= currentResizer._image.naturalWidth) ? true : false;
+  var validationUp = ((up + size) <= currentResizer._image.naturalHeight) ? true : false;
+  var validationNegative = ((up && left) < 0) ? true : false;
+
+  left.onchange = resizeFormIsValid;
+  up.onchange = resizeFormIsValid;
+  size.onchange = resizeFormIsValid;
+
   function resizeFormIsValid() {
-    return true;
+    if (validationLeft && validationUp && validationNegative === true) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
