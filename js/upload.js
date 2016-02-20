@@ -73,27 +73,32 @@
    */
 
    // Валидация данных введённых в форму
-
-  var formElement = document.forms['upload-resize'];
-  var left = formElement['resize-x'];
-  var up = formElement['resize-y'];
-  var size = formElement['resize-size'];
-  var submitButton = formElement['resize-fwd'];
-  var validationLeft = ((left + size) <= currentResizer._image.naturalWidth) ? true : false;
-  var validationUp = ((up + size) <= currentResizer._image.naturalHeight) ? true : false;
-  var validationNegative = ((up && left) < 0) ? true : false;
-
-  left.onchange = resizeFormIsValid;
-  up.onchange = resizeFormIsValid;
-  size.onchange = resizeFormIsValid;
-
   function resizeFormIsValid() {
-    if (validationLeft && validationUp && validationNegative === true) {
-      return true;
-    } else {
+    var resizeX = document.querySelector('#resize-x');
+    var resizeY = document.querySelector('#resize-y');
+    var resizeSize = document.querySelector('#resize-size');
+    if ((resizeX.value + resizeSize.value) > currentResizer._image.naturalWidth) {
       return false;
+    } else if ((resizeY.value + resizeSize.value) > currentResizer._image.naturalHeight) {
+      return false;
+    } else if (resizeY.value < 0) {
+      return false;
+    } else if (resizeX.value < 0) {
+      return false;
+    } else {
+      return true;
     }
   }
+  var resizeX = document.querySelector('#resize-x');
+  var resizeY = document.querySelector('#resize-y');
+  var resizeSize = document.querySelector('#resize-size');
+  var submitButton = document.querySelector('.upload-form-controls-fwd');
+  var validation = document.querySelector('.upload-resize-controls');
+  validation.addEventListener('change', function(e) {
+    if (e.target === resizeX || resizeY || resizeSize) {
+      submitButton.disabled = false;
+    }
+  });
 
   /**
    * Форма загрузки изображения.
@@ -219,6 +224,8 @@
 
       resizeForm.classList.add('invisible');
       filterForm.classList.remove('invisible');
+    } else {
+      submitButton.disabled = true;
     }
   };
 
