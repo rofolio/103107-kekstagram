@@ -71,9 +71,33 @@
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
+
+   // Валидация данных введённых в форму
+  var resizeX = document.querySelector('#resize-x');
+  var resizeY = document.querySelector('#resize-y');
+  var resizeSize = document.querySelector('#resize-size');
   function resizeFormIsValid() {
+    if ((resizeX.value + resizeSize.value) > currentResizer._image.naturalWidth) {
+      return false;
+    } else if ((resizeY.value + resizeSize.value) > currentResizer._image.naturalHeight) {
+      return false;
+    } else if (resizeY.value < 0) {
+      return false;
+    } else if (resizeX.value < 0) {
+      return false;
+    }
     return true;
   }
+
+  var submitButton = document.querySelector('.upload-form-controls-fwd');
+  var validation = document.querySelector('.upload-resize-controls');
+  validation.addEventListener('change', function() {
+    if (resizeFormIsValid()) {
+      submitButton.disabled = false;
+    } else {
+      submitButton.disabled = true;
+    }
+  });
 
   /**
    * Форма загрузки изображения.
