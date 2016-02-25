@@ -73,10 +73,10 @@
    */
 
    // Валидация данных введённых в форму
+  var resizeX = document.querySelector('#resize-x');
+  var resizeY = document.querySelector('#resize-y');
+  var resizeSize = document.querySelector('#resize-size');
   function resizeFormIsValid() {
-    var resizeX = document.querySelector('#resize-x');
-    var resizeY = document.querySelector('#resize-y');
-    var resizeSize = document.querySelector('#resize-size');
     if ((resizeX.value + resizeSize.value) > currentResizer._image.naturalWidth) {
       return false;
     } else if ((resizeY.value + resizeSize.value) > currentResizer._image.naturalHeight) {
@@ -85,18 +85,17 @@
       return false;
     } else if (resizeX.value < 0) {
       return false;
-    } else {
-      return true;
     }
+    return true;
   }
-  var resizeX = document.querySelector('#resize-x');
-  var resizeY = document.querySelector('#resize-y');
-  var resizeSize = document.querySelector('#resize-size');
+
   var submitButton = document.querySelector('.upload-form-controls-fwd');
   var validation = document.querySelector('.upload-resize-controls');
-  validation.addEventListener('change', function(e) {
-    if (e.target === resizeX || resizeY || resizeSize) {
+  validation.addEventListener('change', function() {
+    if (resizeFormIsValid()) {
       submitButton.disabled = false;
+    } else {
+      submitButton.disabled = true;
     }
   });
 
@@ -224,8 +223,6 @@
 
       resizeForm.classList.add('invisible');
       filterForm.classList.remove('invisible');
-    } else {
-      submitButton.disabled = true;
     }
   };
 
