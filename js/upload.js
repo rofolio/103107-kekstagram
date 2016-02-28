@@ -226,6 +226,14 @@
     }
   };
 
+  /* Автоматическая установка фильтра из куки */
+  function filterFromCookie() {
+    var selectedFilter = docCookies.getItem('filter');
+    var filterClass = 'filter-' + selectedFilter;
+    filterImage.className = 'filter-image-preview ' + filterClass;
+  }
+  filterFromCookie();
+
   /**
    * Сброс формы фильтра. Показывает форму кадрирования.
    * @param {Event} evt
@@ -237,6 +245,21 @@
     resizeForm.classList.remove('invisible');
   };
 
+  /* Запись в куки выбраного фильтра */
+  function checkedFilter() {
+    var today = new Date();
+    var birthday = new Date(2015, 9, 19);
+    var expire = today - birthday;
+    var oneDay = 1000 * 60 * 60 * 24;
+    var day = Math.floor(expire / oneDay);
+    var dateToExpire = Date.now() + day * 24 * 60 * 60 * 1000;
+    var formattedDateToExpire = new Date(dateToExpire).toUTCString();
+    var selectedFilter = [].filter.call(filterForm['upload-filter'], function(item) {
+      return item.checked;
+    })[0];
+
+    docCookies.setItem('filter', selectedFilter.value, formattedDateToExpire);
+  }
   /**
    * Отправка формы фильтра. Возвращает в начальное состояние, предварительно
    * записав сохраненный фильтр в cookie.
@@ -244,7 +267,7 @@
    */
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
-
+    checkedFilter();
     cleanupResizer();
     updateBackground();
 
@@ -280,4 +303,5 @@
 
   cleanupResizer();
   updateBackground();
+
 })();
