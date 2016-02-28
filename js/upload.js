@@ -232,6 +232,8 @@
     var selectedFilter = docCookies.getItem('filter');
     var filterClass = 'filter-' + selectedFilter;
     filterImage.className = 'filter-image-preview ' + filterClass;
+    var checkedButton = document.getElementById('upload-' + filterClass);
+    checkedButton.checked = true;
   }
   filterFromCookie();
 
