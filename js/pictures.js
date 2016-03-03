@@ -2,8 +2,15 @@
 /* global pictures: true */
 
 (function() {
-  var pictures = [];
-
+  /* Прячем блок с фильтрами */
+  function hideFilters() {
+    document.querySelector('.filters').classList.add('hidden');
+  }
+  /*Показываем блок с фильтрами*/
+  function showFilters() {
+    document.querySelector('.filters').classList.remove('hidden');
+  }
+  hideFilters();
   /* Обозначаем область выведения данных */
   var container = document.querySelector('.pictures');
 
@@ -16,10 +23,12 @@
       fragment.appendChild(element);
     });
     container.appendChild(fragment);
+    showFilters();
   }
+
   createPictures();
 
-  /* Создаём Дом-Элемент на основе шаблона */
+  /* Создаём DOM-Элемент на основе шаблона */
   function getElementFromTemplate(data) {
     var template = document.querySelector('#picture-template');
 
@@ -55,7 +64,7 @@
     /* Установка таймаута */
     var IMAGE_TIMEOUT = 10000;
 
-    imageLoadTimeout = setTimeout(function() {
+    var imageLoadTimeout = setTimeout(function() {
       addImage.src = '';
       element.classList.add('picture-load-failure');
     }, IMAGE_TIMEOUT);
@@ -63,13 +72,4 @@
     return element;
   }
 
-  /* Прячем блок с фильтрами */
-  function hideFilters() {
-    document.querySelector('.filters').classList.add('hidden');
-  }
-  /*Показываем блок с фильтрами*/
-  function showFilters() {
-    document.querySelector('.filters').classList.remove('hidden');
-  }
-  showFilters();
 })();
